@@ -5,13 +5,13 @@ clear
 clc
 
 %-----Пункт 1------ (+)
-N  =  10000;
-mu  =  1;
-sigma  =  4;
-X  =  random('Normal', mu, sigma, N, 1);
+N = 10000;
+mu = 1;
+sigma = 4;
+X = random('Normal', mu, sigma, N, 1);
 
 %-----Пункт 2.1------ (+)
-sigma_MM  =  4 * (1/pi) * (sum(X)/N)^2;
+sigma_MM = 4 * (1/pi) * (sum(X)/N)^2;
 
 %N = input("input: ");
 for i = 1:1002
@@ -83,7 +83,7 @@ end
 
 z1 = z+h/2;
 z2 = z1(1:r)
-U = hist(X,  z2);
+U = hist(X, z2);
 bar(z2, U/(h*N), 1);
 x = -10:0.001:10;
 
