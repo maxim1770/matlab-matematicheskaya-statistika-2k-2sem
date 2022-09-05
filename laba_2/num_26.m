@@ -1,15 +1,15 @@
 clear
 clc
 
-%  --------------1
+%-----Пункт 1------ (+)
 N=10000;
  nakagami=random('Nakagami',1,3,N,1);
 
-% -----------------2.1
+%-----Пункт 2.1------ (+)
 sigma_MM = 4 * (1/pi) * (sum(nakagami)/N)^2;
 
 %N=input("input: ");
-for i=1:1000
+for i=1:1002
     nakagami=random('Nakagami',1,3,N,1);
     sigma_1(i)= 4 * (1/pi) * (sum(nakagami)/N)^2;
     sigma(i)=3;
@@ -46,7 +46,7 @@ nakagami=random('Nakagami',1,3,10000,1);
 plot(k,b);
 hold off
 
-% ------------------2.2
+%-----Пункт 2.2------ (+)
 
 for i=1:100
     %N=input("input: ");
