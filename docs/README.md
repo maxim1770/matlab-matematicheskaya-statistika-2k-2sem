@@ -22,6 +22,8 @@
 
 * 22 - Нормальное распределение: μ=1, σ=4  
   [code][laba_2_22]
+  **Заметки:**
+  
 
 * 26 - Распределение Накагами: μ=1, w=3  
   [code][laba_2_26]
@@ -37,7 +39,7 @@
 [laba_1_22]: ../laba_1/num_22.m
 
 
-[task_2]: https://vk.com/doc261566934_631477719?hash=pVhmWpQFDGxQ5RFjjAZBedhwcYDZvEoovTn3g3NpLN8&dl=0RVo9UxVGtywYr028BN4UheelFePKpzGMRzD3ZwOyms
+[task_2]: ../media/laba_2/task.pdf
 
 [laba_2_22]: ../laba_2/num_22.m
 
