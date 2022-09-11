@@ -2,43 +2,46 @@ clear
 clc
 %-----1----—
 N=10000;
-MU=1;
-SIGMA=4;
-X = random('Normal',MU,SIGMA,N,1);
+A=1;
+B=4;
+X = random('Gamma',A,B,N,1); % генерируем выборку
+
 %-----2---—
 %-----2.1--— метод моментов
 M=1000;
 NN=10;
 for i=1:M
-xx1=random('Normal',MU,SIGMA,NN,1);
-mus(i)=MU; %точное значение параметра
-sigmas(i)=SIGMA; %точное значение параметра
-mu(i)=mean(xx1); %по методу моментов параметр = мат ожиданию
-sigma(i)=sqrt(var(xx1)); %по методу моментов дисперсия = сигма^2
+xx1=random('Gamma',A,B,NN,1); % 1000 выборочных реализаций объема N
+as(i)=A; % точное значение параметра
+bs(i)=B; % точное значение параметра
+a(i)=mean(xx1); % по методу моментов параметр =мат ожиданию
+b(i)=sqrt(var(xx1)); % по методу моментов дисперсия=сигма^2, отсюда выражаем сигму
 x_1(i)=i;
 end
+%графики
 figure(1);
 subplot(2,1,1);
 hold all;
-plot(mu,'blue');
-plot(x_1,mus,'red');
+plot(a,'blue');
+plot(x_1,as,'red');
 subplot(2,1,2);
 hold all;
-plot(sigma,'black');
-plot(x_1,sigmas,'green');
+plot(b,'black');
+plot(x_1,bs,'green');
 %----2.2--— метод максимального правдоподобия
 for i=1:M
-X2_2=random('Normal',MU,SIGMA,NN,1);
-func= @(x,sigma) -log(sigma)-log(2*pi)/2-((x-2).^2/(2*sigma^2)); %логарифм от функции правдоподбия
-func_pr= @(sigma) sum(func(X2_2,sigma)); %логарифм от функции правдоподбия для всей выборки
-func_pr2=@(sigma) -func_pr(sigma); %переворачиваем функцию и находим минимум
+X2_2=random('Gamma',A,B,NN,1);
+func= @(x,b) -log(b)-log(2*pi)/2-((x-2).^2/(2*b^2)); %логарифм от функции правдоподбия, после @ указаны переменные,
+% от которых зависит функция
+func_pr= @(b) sum(func(X2_2,b)); %логарифм от функции правдоподбия для всей выборки
+func_pr2=@(b) -func_pr(b); %переворачиваем функцию и находим минимум
 ocenka_max_p(i)=fminbnd(func_pr2,0,10);
 end
 figure(2);
 hold all;
 title('Зависимость точечной оценки от номера реализации');
 plot(ocenka_max_p,'blue');
-plot(x_1,sigmas,'red');
+plot(x_1,bs,'red');
 hold off;
 figure(3);
 hold all
@@ -50,17 +53,17 @@ end
 hold all;
 plot(Y,m);
 %----2.3--—
-sum_ocenka_mu=sum(mu)/NN;
-smesh_ocenka=sum_ocenka_mu-MU;
-disp=sum((mu-sum_ocenka_mu).^2)/NN;
-rass=sum((mu-MU).^2)/NN;
+sum_ocenka_b=sum(a)/NN;
+smesh_ocenka=sum_ocenka_b-A;
+disp=sum((a-sum_ocenka_b).^2)/NN;
+rass=sum((a-A).^2)/NN;
 %----3---—
 figure(4);
 hold all;
 N1=10000;
 X_max=max(X);
 X_min=min(X);
-r=floor(log2(N1))+1;%r- количество столбцов
+r=floor(log2(N1))+1;%флор - целая часть r- количество столбцов
 h=(X_max-X_min)/r;%ширина каждого столбика
 %массив границ
 for i=1:(r+1)
@@ -77,20 +80,20 @@ for i=1:N1 %цикл от1 до N
 xx(i)=X_min+(i-1)*h1;% массив из N точек от мин до макс
 end
 for i=1:N1
-muu=mean(X);
+bu=mean(X);
 end
-summu=sum(muu);
+sumb=sum(bu);
 title('Гистограмма и плотность вероятности')
-f=pdf('Normal',xx,MU,SIGMA);
-f1=pdf('Normal',xx,summu,SIGMA);
+f=pdf('Gamma',xx,A,B);
+f1=pdf('Gamma',xx,sumb,B);
 hold on
 plot(xx,f,'red');
 plot(xx,f1,'green')
 %----4---—
 figure(5);
 hold all;
-F_teor = cdf ('Normal',xx,MU,SIGMA);
-F_teor_1=cdf('Normal',xx,summu,SIGMA);
+F_teor = cdf ('Gamma',xx,A,B);
+F_teor_1=cdf('Gamma',xx,sumb,B);
 plot(xx,F_teor,'green');
 plot(xx,F_teor_1,'blue');
 ecdf(X);% "Эмпирическая по негруппированным

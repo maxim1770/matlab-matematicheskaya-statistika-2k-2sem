@@ -7,7 +7,7 @@ f2=figure;
 N=1000000;
 mu = 1;
 sigma = 4;
-X=random('Normal', mu, sigma, N, 1);
+X=random('Gamma', mu, sigma, N, 1);
 %-----Пункт 2------
 
 %-----2.1------(+)
@@ -28,7 +28,7 @@ M=1000;
 sredn_mx=0;
 sredn_vx=0;
 for l=1:M %цикл от1 до M
-    xx1=random('Normal', mu, sigma, NN1, 1);%генерация выборки
+    xx1=random('Gamma', mu, sigma, NN1, 1);%генерация выборки
     mx_mid_n10(l)=mean(xx1);
     vx_mid_ispr_n10(l)=var(xx1)*NN1/(NN1-1);
     x_1(l)=l;
@@ -69,7 +69,7 @@ for j=1:N %цикл от1 до N
     xx(j)=x_min+(j-1)*h1;% массив из N точек от мин до макс-а
 end
 
-f=pdf('Normal', xx, mu, sigma);
+f=pdf('Gamma', xx, mu, sigma);
 plot(xx,f,'green');
 plot(z2,u/(h*N),'black'); %полигон относительных частот, точкам из z2 ставится частоты из u деленые на(h*N)
 
@@ -90,7 +90,7 @@ vx_mid_group=vx_mid_group/N;
 %-----Пункт 5------(+)
 figure;
 hold all;
-F_teor = cdf ('Normal', xx, mu, sigma);
+F_teor = cdf ('Gamma', xx, mu, sigma);
 plot(xx,F_teor,'green');
 ecdf(X);% "Эмпирическая по негруппированным
 uu(1)=0;
