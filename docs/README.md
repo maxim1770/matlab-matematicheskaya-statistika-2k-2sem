@@ -25,14 +25,19 @@
 
 * 22 - Нормальное распределение: μ=1, σ=4  
   [code][laba_2_22]
-  
 
 * 26 - Распределение Накагами: μ=1, w=3  
   [code][laba_2_26]
 
-### Заметки
+* 28 - Распределение Рэлея: σ=4  
+  [code][laba_2_28]
 
-[variants]: https://vk.com/doc261566934_629314963?hash=39UpNTZyvN6EqkZYXWSZzfz7Xnj5lHVXxVjxEZTY75k&dl=zkRRQ5QPYB4p7CxSerYb7RA61a4DvLKZHbKxvntiFKD
+* 29 - Логистическое распределение: l=-2, s=1  
+  [code][laba_2_29]
+
+  
+
+[variants]: ../media/variants.pdf
 
 [task_1]: https://vk.com/doc261566934_629314993?hash=j1fJkzKGfIZP11mYvQu0xP9ZInJZiZtw7tgiL5xcDB8&dl=l8QciqfYi7ATjn9dNi374oSwaqzmWmhzKdnoZigKFTk
 
@@ -48,3 +53,7 @@
 [laba_2_22]: ../laba_2/num_22.m
 
 [laba_2_26]: ../laba_2/num_26.m
+
+[laba_2_28]: ../laba_2/num_28.m
+
+[laba_2_29]: ../laba_2/num_29.m

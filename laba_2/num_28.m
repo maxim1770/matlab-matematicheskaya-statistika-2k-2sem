@@ -2,53 +2,47 @@ clear
 clc
 %-----1----—
 N=10000;
-MU=1;
 SIGMA=4;
-X = random('Normal',MU,SIGMA,N,1);
+X = random('Rayleigh',SIGMA,N,1);
 %-----2---—
 %-----2.1--— метод моментов
 M=1000;
-NN=10000;
+NN=10;
 for i=1:M
-xx1=random('Normal',MU,SIGMA,NN,1);
-mus(i)=MU; %точное значение параметра
+xx1=random('Rayleigh',SIGMA,NN,1);
 sigmas(i)=SIGMA; %точное значение параметра
-mu(i)=mean(xx1); %по методу моментов параметр = мат ожиданию
-sigma(i)=sqrt(var(xx1)); %по методу моментов дисперсия = сигма^2
+sigma(i)= mean(xx1)/(sqrt(pi/2));
 x_1(i)=i;
 end
 figure(1);
-subplot(2,1,1);
-hold all;
-plot(mu,'blue');
-plot(x_1,mus,'red');
-subplot(2,1,2);
 hold all;
 plot(sigma,'black');
 plot(x_1,sigmas,'green');
 %----2.2--— метод максимального правдоподобия
-for i=1:M
-X2_2=random('Normal',MU,SIGMA,NN,1);
-func= @(x,sigma) -log(sigma)-log(2*pi)/2-((x-2).^2/(2*sigma^2)); %логарифм от функции правдоподбия
-func_pr= @(sigma) sum(func(X2_2,sigma)); %логарифм от функции правдоподбия для всей выборки
-func_pr2=@(sigma) -func_pr(sigma); %переворачиваем функцию и находим минимум
-ocenka_max_p(i)=fminbnd(func_pr2,0,10);
-end
+X1_test = random('Rayleigh',SIGMA,N,1);
+Y = [1:0.01:8]; 
+Y_size = size(Y); 
+for i=1:Y_size(2) 
+ l1(i) = 0; 
+end 
+for i=1:Y_size(2) 
+ for j=1:NN 
+ d1(j) = log(X1_test(j)/Y(i)^2)+(-X1_test(j)^2)/(2*Y(i)^2); 
+ l1(i) = l1(i)+d1(j); 
+ end 
+end 
 figure(2);
-hold all;
-title('Зависимость точечной оценки от номера реализации');
-plot(ocenka_max_p,'blue');
-plot(x_1,sigmas,'red');
-hold off;
-figure(3);
-hold all
-title('Функция правдоподобия');
-Y=(1:0.1:10);
-for i=1:91
-m(i)=func_pr(Y(i));
-end
-hold all;
-plot(Y,m);
+hold on;
+title("Функции правдоподобия"); 
+plot(Y,l1); 
+%Находим положение максимума этой функции
+max_y1 = max(l1); 
+max_x1 = -1; 
+for i=1:Y_size(2) 
+ if(l1(i) == max_y1)
+     max_x1 = Y(i);
+ end 
+end 
 %----2.3--—
 sum_ocenka_mu=sum(mu)/NN;
 smesh_ocenka=sum_ocenka_mu-MU;
