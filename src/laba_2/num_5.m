@@ -2,8 +2,9 @@ clear
 clc
 %-----1----—
 N=10000;
-A=1;
-B=4;
+A=2;
+B=3;
+TETTA=1;
 X = random('Gamma',A,B,N,1); % генерируем выборку
 
 %-----2---—
@@ -14,7 +15,7 @@ for i=1:M
 xx1=random('Gamma',A,B,NN,1); % 1000 выборочных реализаций объема N
 as(i)=A; % точное значение параметра
 bs(i)=B; % точное значение параметра
-a(i)=mean(xx1)/B; 
+a(i)=mean(xx1)/B;
 b(i)=mean(xx1)/A;
 x_1(i)=i;
 end
@@ -31,10 +32,15 @@ plot(x_1,bs,'green');
 %----2.2--— метод максимального правдоподобия
 for i=1:M
 X2_2=random('Gamma',A,B,NN,1);
-func= @(x,b) -log(b)-log(2*pi)/2-((x-2).^2/(2*b^2)); %логарифм от функции правдоподбия, после @ указаны переменные,
-% от которых зависит функция
-func_pr= @(b) sum(func(X2_2,b)); %логарифм от функции правдоподбия для всей выборки
-func_pr2=@(b) -func_pr(b); %переворачиваем функцию и находим минимум
+s1=0;
+s2=0;
+for j=1:NN
+s1=s1+log(X2_2(j)/TETTA);
+s2=s2+log((X2_2(j)/TETTA).^B);
+end
+func= @(NN,s1,s2,a,b,TETTA) NN(log(abs(b)/TETTA)-log(gamma(a/b))+(a-1)/NN*s1-s2/NN); %логарифм от функции правдоподбия
+func_pr= @(NN,s1,s2,a,b,TETTA) sum(func(NN,s1,s2,a,b,TETTA)); %логарифм от функции правдоподбия для всей выборки
+func_pr2=@(NN,s1,s2,a,b,TETTA) -func_pr(NN,s1,s2,a,b,TETTA); %переворачиваем функцию и находим минимум
 ocenka_max_p(i)=fminbnd(func_pr2,0,10);
 end
 figure(2);
@@ -53,9 +59,9 @@ end
 hold all;
 plot(Y,m);
 %----2.3--—
-sum_ocenka_b=sum(a)/NN;
-smesh_ocenka=sum_ocenka_b-A;
-disp=sum((a-sum_ocenka_b).^2)/NN;
+sum_ocenka_a=sum(a)/NN;
+smesh_ocenka=sum_ocenka_a-A;
+disp=sum((a-sum_ocenka_a).^2)/NN;
 rass=sum((a-A).^2)/NN;
 %----3---—
 figure(4);
